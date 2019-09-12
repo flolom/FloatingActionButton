@@ -14,7 +14,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +26,8 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.core.content.res.ResourcesCompat;
 
 public class FloatingActionMenu extends ViewGroup {
 
@@ -165,10 +166,13 @@ public class FloatingActionMenu extends ViewGroup {
         mLabelsMaxLines = attr.getInt(R.styleable.FloatingActionMenu_menu_labels_maxLines, -1);
         mMenuFabSize = attr.getInt(R.styleable.FloatingActionMenu_menu_fab_size, FloatingActionButton.SIZE_NORMAL);
         mLabelsStyle = attr.getResourceId(R.styleable.FloatingActionMenu_menu_labels_style, 0);
-        String customFont = attr.getString(R.styleable.FloatingActionMenu_menu_labels_customFont);
+        int customFont = attr.getResourceId(
+            R.styleable.FloatingActionMenu_menu_labels_customFont,
+            0
+        );
         try {
-            if (!TextUtils.isEmpty(customFont)) {
-                mCustomTypefaceFromFont = Typeface.createFromAsset(getContext().getAssets(), customFont);
+            if (customFont != 0) {
+                mCustomTypefaceFromFont = ResourcesCompat.getFont(context, customFont);
             }
         } catch (RuntimeException ex) {
             throw new IllegalArgumentException("Unable to load specified custom font: " + customFont, ex);
@@ -985,7 +989,7 @@ public class FloatingActionMenu extends ViewGroup {
 
     public void removeAllMenuButtons() {
         close(true);
-        
+
         List<FloatingActionButton> viewsToRemove = new ArrayList<>();
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
