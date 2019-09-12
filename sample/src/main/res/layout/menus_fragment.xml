@@ -45,6 +45,7 @@
         fab:menu_labels_hideAnimation="@anim/jump_to_down"
         fab:menu_animationDelayPerItem="0"
         fab:menu_shadowColor="#444"
+        fab:menu_labels_customFont="@font/nunito_sans_regular"
         fab:menu_colorNormal="#FFB805"
         fab:menu_colorPressed="#F2AB00"
         fab:menu_colorRipple="#D99200">
